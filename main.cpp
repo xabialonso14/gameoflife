@@ -35,7 +35,6 @@ class Board
         void initMap();
         void displayMap();
         void checkMap();
-        void updateMap();
         int countNeighbours(int,int);
 };
 
@@ -59,8 +58,11 @@ void Board::initMap()
   {
       for(int j=0;j<width;j++)
       {
+          // display current cell sign
           std::cout << ' ' << boardElements[i][j].sign;
       }
+
+      // end of the row
       std::cout << std::endl;
   }
 
@@ -75,15 +77,21 @@ void Board::displayMap()
       {
           if (boardElements[i][j].sign == boardElements[i][j].nextSign)
           {
+              boardElements[i][j].alive = boardElements[i][j].nextAlive;
               continue;
           }
+
+          // if next sign is different than the current one, overwrite it
           setCursorPosition(j*2+1, i);
           std::cout << boardElements[i][j].nextSign;
 
+          // update current cell properties
           boardElements[i][j].alive = boardElements[i][j].nextAlive;
           boardElements[i][j].sign = boardElements[i][j].nextSign;
       }
   }
+
+  // after board update, set cursor position to the end
   setCursorPosition(0,height);
 }
 
@@ -123,24 +131,9 @@ void Board::checkMap()
 
 }
 
-void Board::updateMap()
-{
-    // assign initial elements
-    for (int i = 0; i < height; i++)
-    {
-        for (int j = 0; j < width; j++)
-        {
-          boardElements[i][j].alive = boardElements[i][j].nextAlive;
-          boardElements[i][j].sign = boardElements[i][j].nextSign;
-        }
-    }
-
-
-
-}
-
 int Board::countNeighbours(int x, int y)
 {
+    // init number of neighbours to 0
     int n = 0;
 
     // iterate over rows
@@ -165,7 +158,7 @@ int Board::countNeighbours(int x, int y)
         }
     }
 
-
+    // if current cell is alive, decrement n
     if (boardElements[x][y].alive)
         n--;
 
@@ -176,13 +169,17 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
+    // make console full screen
     // why '::' in front of methods?
     ::SendMessage(::GetConsoleWindow(), WM_SYSKEYDOWN, VK_RETURN, 0x20000000);
 
+    // create an instance of Board
     Board MyMap;
-    MyMap.setDimensions(30,50);
 
+    // set its dimensions to 50 rows and 100 columns
+    MyMap.setDimensions(50,100);
 
+    // add a glider
     MyMap.boardElements[0][1].sign = 'X';
     MyMap.boardElements[1][2].sign = 'X';
     MyMap.boardElements[2][0].sign = 'X';
@@ -207,25 +204,19 @@ int main(int argc, char *argv[])
     MyMap.boardElements[2][1].nextAlive = true;
     MyMap.boardElements[2][2].nextAlive = true;
 
+    // display initial board
     MyMap.initMap();
 
     while(1)
     {
-        // clear board
-        //system("cls");
-
         // time delay
         Sleep(500);
 
         // calculate next board
         MyMap.checkMap();
 
-        // update board
-        //MyMap.updateMap();
-
-        // display current board
+        // display next board
         MyMap.displayMap();
-
     }
 
     return a.exec();
