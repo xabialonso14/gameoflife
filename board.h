@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <iostream>
-#include <windows.h>
 #include "boardelement.h"
 
 #pragma comment(lib, "user32")
@@ -17,16 +16,15 @@ class Board
 
     public:
         Board();
-		// komentarz: brak nazw zmiennych
-        void setDimensions (int,int);
-        void initMap();
-        void displayMap();
-        void checkMap();
 
-		// komentarz: x,y -> Point
-        int countNeighbours(int,int);
-        void addGlider(int,int);
-        void addDakota(int,int);
+        void setDimensions(int rows, int columns);
+
+        void setWidth(int width);
+        void setHeight(int height);
+
+        int getWidth();
+        int getHeight();
+
         std::vector< std::vector<BoardElement> > boardElements;
 };
 
