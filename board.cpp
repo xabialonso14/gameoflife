@@ -9,12 +9,11 @@ void setCursorPosition(int x, int y)
     SetConsoleCursorPosition(hOut, coord);
 }
 
-Board::Board()
-{
+// komentarz: domyślny konstruktor jest generowany przez kompilator,
+// jeśli nic w nim nie robisz, nie trzeba go dodawać; sugestia: może
+// dodać
 
-}
-
-
+// komentarz: znowu x/y, a potem width/height
 void Board::setDimensions (int x, int y)
 {
   // assign board dimensions properties
@@ -31,6 +30,8 @@ void Board::setDimensions (int x, int y)
 
 void Board::initMap()
 {
+	// komentarz: to wszystko powinno być ukryte w nowej abstrakcji
+	// zeby nie trzeba było za każdym razem dwóch pętli robić
   for(int i=0;i<height;i++)
   {
       for(int j=0;j<width;j++)
@@ -48,10 +49,12 @@ void Board::initMap()
 
 void Board::displayMap()
 {
+	// komentarz: width/height, x/y, row/columns - trzeba wybrać jedno i tego się trzymać
   for(int i=0;i<height;i++)
   {
       for(int j=0;j<width;j++)
-      {
+	  {
+		  // komentarz: te dwie pętle się często powtarzają - duplikacja kodu
           if (boardElements[i][j].sign == boardElements[i][j].nextSign)
           {
               boardElements[i][j].alive = boardElements[i][j].nextAlive;
@@ -73,6 +76,7 @@ void Board::displayMap()
 }
 
 
+// komentarz: trochę dziwna, niewiele mówiąca nazwa
 void Board::checkMap()
 {
   for(int i=0;i<height;i++)
