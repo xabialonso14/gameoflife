@@ -5,25 +5,27 @@
 #include <iostream>
 #include "boardelement.h"
 
-#pragma comment(lib, "user32")
+struct Point
+{
+  int row;
+  int column;
+};
 
-
-// komentarz: Board powinien być czymś, co abstrachuje dwuwymiarową tablicę (boardElements);
-// ta klasa powinna bardziej nazywać się GameOfLifeMap
 class Board
 {
-    int width, height;
+    private:
+        int rows, columns;
 
     public:
         Board();
 
         void setDimensions(int rows, int columns);
 
-        void setWidth(int width);
-        void setHeight(int height);
+        void setRows(int rows);
+        void setColumns(int columns);
 
-        int getWidth();
-        int getHeight();
+        int getRows();
+        int getColumns();
 
         std::vector< std::vector<BoardElement> > boardElements;
 };

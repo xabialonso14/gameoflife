@@ -11,35 +11,35 @@ Board::Board()
 void Board::setDimensions(int rows, int columns)
 {
     // assign board dimensions properties
-    setHeight(rows);
-    setWidth(columns);
+    this->rows = rows;
+    this->columns = columns;
 
     // resize board
-    boardElements.resize(height);
-    for(int i = 0; i < height; ++i)
+    boardElements.resize(rows);
+    for(int i = 0; i < rows; ++i)
     {
-      boardElements[i].resize(width);
+      boardElements[i].resize(columns);
     }
 }
 
-void Board::setWidth(int width)
+void Board::setColumns(int columns)
 {
-    this->width = width;
+    this->columns = columns;
 }
 
-void Board::setHeight(int height)
+void Board::setRows(int rows)
 {
-    this->height = height;
+    this->rows = rows;
 }
 
-int Board::getWidth()
+int Board::getColumns()
 {
-    return width;
+    return columns;
 }
 
-int Board::getHeight()
+int Board::getRows()
 {
-    return height;
+    return rows;
 }
 
 

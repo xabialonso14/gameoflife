@@ -1,26 +1,26 @@
 #ifndef GAMEOFLIFEMAP_H
 #define GAMEOFLIFEMAP_H
 
+#include <functional>
 #include "board.h"
 
 class GameOfLifeMap
 {
 
 public:
-    GameOfLifeMap();
+    GameOfLifeMap(int rows, int columns);
 
     Board board;
 
-    // komentarz: brak nazw zmiennych
-    void setDimensions (int,int);
-    void initMap();
     void displayMap();
-    void checkMap();
+    void updateMap();
 
-    // komentarz: x,y -> Point
-    int countNeighbours(int,int);
-    void addGlider(int,int);
-    void addDakota(int,int);
+    int countNeighbours(Point point);
+    void addGlider(Point point);
+    void addDakota(Point point);
+
+    // pytanie: lepiej tu, czy w klasie Board?
+    void forEachElement(std::function<void(int row, int column)> myFcn, Board board);
 };
 
 #endif // GAMEOFLIFEMAP_H

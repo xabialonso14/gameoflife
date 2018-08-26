@@ -1,21 +1,14 @@
 #include "gameoflifemap.h"
 
-GameOfLifeMap::GameOfLifeMap()
+GameOfLifeMap::GameOfLifeMap(int rows, int columns)
 {
-
+    board.setDimensions(rows,columns);
 }
 
-// komentarz: znowu x/y, a potem width/height
-void GameOfLifeMap::setDimensions (int x, int y)
+void GameOfLifeMap::displayMap()
 {
-  board.setDimensions(x,y);
-
-}
-
-void GameOfLifeMap::initMap()
-{
-    int height = board.getHeight();
-    int width = board.getWidth();
+    int height = board.getRows();
+    int width = board.getColumns();
 
 
     // komentarz: to wszystko powinno być ukryte w nowej abstrakcji
@@ -25,7 +18,7 @@ void GameOfLifeMap::initMap()
       for(int j=0;j<width;j++)
       {
           // display current cell sign
-          std::cout << ' ' << board.boardElements[i][j].sign;
+          std::cout << ' ' << board.boardElements[i][j].getSign();
       }
 
       // end of the row
@@ -34,78 +27,67 @@ void GameOfLifeMap::initMap()
 
 }
 
-
-void GameOfLifeMap::displayMap()
+void GameOfLifeMap::updateMap()
 {
-    int height = board.getHeight();
-    int width = board.getWidth();
 
-    // komentarz: width/height, x/y, row/columns - trzeba wybrać jedno i tego się trzymać
-  for(int i=0;i<height;i++)
-  {
-      for(int j=0;j<width;j++)
-      {
-          // komentarz: te dwie pętle się często powtarzają - duplikacja kodu
-          // display current cell sign
-          std::cout << ' ' << board.boardElements[i][j].nextSign;
+    Board nextBoard = board;
 
-          // update current cell properties
-          board.boardElements[i][j].alive = board.boardElements[i][j].nextAlive;
-          board.boardElements[i][j].sign = board.boardElements[i][j].nextSign;
-      }
-      // end of the row
-      std::cout << std::endl;
-  }
+    int rows = board.getRows();
+    int columns = board.getColumns();
 
+    for(int row=0;row<rows;row++)
+    {
+        for(int column=0;column<columns;column++)
+        {
+            // count cell neighbours
+            board.boardElements[row][column].numberOfNeighbours = GameOfLifeMap::countNeighbours({row,column});
+
+            // if cell is currently alive
+            if (board.boardElements[row][column].getAlive())
+            {
+                // if cell has too few or too many neighbours, it dies
+                if ( board.boardElements[row][column].numberOfNeighbours < 2 || board.boardElements[row][column].numberOfNeighbours > 3 )
+                {
+                    nextBoard.boardElements[row][column].setAlive(false);
+                    nextBoard.boardElements[row][column].setSign('|');
+                }
+            }
+
+            // otherwise, if cell is currently dead
+            else
+            {
+                // if cell has exactly 3 neighbours, it becomes alive
+                if ( 3==board.boardElements[row][column].numberOfNeighbours  )
+                {
+                    nextBoard.boardElements[row][column].setAlive(true);
+                    nextBoard.boardElements[row][column].setSign('X');
+                }
+            }
+        }
+    }
+
+
+
+//    std::function<void(int row, int column)> myFcn = [](int row, int column)
+//    {
+
+//    };
+
+//    forEachElement([](int row, int column), board)
+//    {
+
+//    };
+
+  board = nextBoard;
 }
 
-
-// komentarz: trochę dziwna, niewiele mówiąca nazwa
-void GameOfLifeMap::checkMap()
+int GameOfLifeMap::countNeighbours(Point point)
 {
+    int height = board.getRows();
+    int width = board.getColumns();
 
-    int height = board.getHeight();
-    int width = board.getWidth();
-
-  for(int i=0;i<height;i++)
-  {
-      for(int j=0;j<width;j++)
-      {
-          // count cell neighbours
-          board.boardElements[i][j].numberOfNeighbours = GameOfLifeMap::countNeighbours(i,j);
-
-          // if cell is currently alive
-          if (board.boardElements[i][j].alive)
-          {
-              // if cell has too few or too many neighbours, it dies
-              if ( board.boardElements[i][j].numberOfNeighbours < 2 || board.boardElements[i][j].numberOfNeighbours > 3 )
-              {
-                  board.boardElements[i][j].nextAlive = false;
-                  board.boardElements[i][j].nextSign = '|';
-              }
-          }
-
-          // otherwise, if cell is currently dead
-          else
-          {
-              // if cell has exactly 3 neighbours, it becomes alive
-              if ( 3==board.boardElements[i][j].numberOfNeighbours  )
-              {
-                  board.boardElements[i][j].nextAlive = true;
-                  board.boardElements[i][j].nextSign = 'X';
-              }
-          }
-      }
-  }
-
-}
-
-int GameOfLifeMap::countNeighbours(int x, int y)
-{
-
-
-    int height = board.getHeight();
-    int width = board.getWidth();
+    int x = point.row;
+    int y = point.column;
 
     // init number of neighbours to 0
     int n = 0;
@@ -123,7 +105,7 @@ int GameOfLifeMap::countNeighbours(int x, int y)
                 if (j>-1 && j<width)
                 {
                     // if board element is alive, increment n
-                    if (true == board.boardElements[i][j].alive)
+                    if (true == board.boardElements[i][j].getAlive())
                     {
                         n++;
                     }
@@ -133,78 +115,61 @@ int GameOfLifeMap::countNeighbours(int x, int y)
     }
 
     // if current cell is alive, decrement n
-    if (board.boardElements[x][y].alive)
+    if (board.boardElements[x][y].getAlive())
         n--;
 
     return n;
 }
 
-void GameOfLifeMap::addGlider(int x,int y)
+void GameOfLifeMap::addGlider(Point point)
 {
-    board.boardElements[x+0][y+1].sign = 'X';
-    board.boardElements[x+1][y+2].sign = 'X';
-    board.boardElements[x+2][y+0].sign = 'X';
-    board.boardElements[x+2][y+1].sign = 'X';
-    board.boardElements[x+2][y+2].sign = 'X';
+    board.boardElements[point.row+0][point.column+1].setSign('X');
+    board.boardElements[point.row+1][point.column+2].setSign('X');
+    board.boardElements[point.row+2][point.column+0].setSign('X');
+    board.boardElements[point.row+2][point.column+1].setSign('X');
+    board.boardElements[point.row+2][point.column+2].setSign('X');
 
-    board.boardElements[x+0][y+1].nextSign = 'X';
-    board.boardElements[x+1][y+2].nextSign = 'X';
-    board.boardElements[x+2][y+0].nextSign = 'X';
-    board.boardElements[x+2][y+1].nextSign = 'X';
-    board.boardElements[x+2][y+2].nextSign = 'X';
-
-    board.boardElements[x+0][y+1].alive = true;
-    board.boardElements[x+1][y+2].alive = true;
-    board.boardElements[x+2][y+0].alive = true;
-    board.boardElements[x+2][y+1].alive = true;
-    board.boardElements[x+2][y+2].alive = true;
-
-    board.boardElements[x+0][y+1].nextAlive = true;
-    board.boardElements[x+1][y+2].nextAlive = true;
-    board.boardElements[x+2][y+0].nextAlive = true;
-    board.boardElements[x+2][y+1].nextAlive = true;
-    board.boardElements[x+2][y+2].nextAlive = true;
+    board.boardElements[point.row+0][point.column+1].setAlive(true);
+    board.boardElements[point.row+1][point.column+2].setAlive(true);
+    board.boardElements[point.row+2][point.column+0].setAlive(true);
+    board.boardElements[point.row+2][point.column+1].setAlive(true);
+    board.boardElements[point.row+2][point.column+2].setAlive(true);
 }
 
-void GameOfLifeMap::addDakota(int x,int y)
+void GameOfLifeMap::addDakota(Point point)
 {
-    board.boardElements[x+0][y+1].sign = 'X';
-    board.boardElements[x+0][y+4].sign = 'X';
-    board.boardElements[x+1][y+0].sign = 'X';
-    board.boardElements[x+2][y+0].sign = 'X';
-    board.boardElements[x+2][y+4].sign = 'X';
-    board.boardElements[x+3][y+0].sign = 'X';
-    board.boardElements[x+3][y+1].sign = 'X';
-    board.boardElements[x+3][y+2].sign = 'X';
-    board.boardElements[x+3][y+3].sign = 'X';
+    board.boardElements[point.row+0][point.column+1].setSign('X');
+    board.boardElements[point.row+0][point.column+4].setSign('X');
+    board.boardElements[point.row+1][point.column+0].setSign('X');
+    board.boardElements[point.row+2][point.column+0].setSign('X');
+    board.boardElements[point.row+2][point.column+4].setSign('X');
+    board.boardElements[point.row+3][point.column+0].setSign('X');
+    board.boardElements[point.row+3][point.column+1].setSign('X');
+    board.boardElements[point.row+3][point.column+2].setSign('X');
+    board.boardElements[point.row+3][point.column+3].setSign('X');
 
-    board.boardElements[x+0][y+1].nextSign = 'X';
-    board.boardElements[x+0][y+4].nextSign = 'X';
-    board.boardElements[x+1][y+0].nextSign = 'X';
-    board.boardElements[x+2][y+0].nextSign = 'X';
-    board.boardElements[x+2][y+4].nextSign = 'X';
-    board.boardElements[x+3][y+0].nextSign = 'X';
-    board.boardElements[x+3][y+1].nextSign = 'X';
-    board.boardElements[x+3][y+2].nextSign = 'X';
-    board.boardElements[x+3][y+3].nextSign = 'X';
+    board.boardElements[point.row+0][point.column+1].setAlive(true);
+    board.boardElements[point.row+0][point.column+4].setAlive(true);
+    board.boardElements[point.row+1][point.column+0].setAlive(true);
+    board.boardElements[point.row+2][point.column+0].setAlive(true);
+    board.boardElements[point.row+2][point.column+4].setAlive(true);
+    board.boardElements[point.row+3][point.column+0].setAlive(true);
+    board.boardElements[point.row+3][point.column+1].setAlive(true);
+    board.boardElements[point.row+3][point.column+2].setAlive(true);
+    board.boardElements[point.row+3][point.column+3].setAlive(true);
+}
 
-    board.boardElements[x+0][y+1].alive = true;
-    board.boardElements[x+0][y+4].alive = true;
-    board.boardElements[x+1][y+0].alive = true;
-    board.boardElements[x+2][y+0].alive = true;
-    board.boardElements[x+2][y+4].alive = true;
-    board.boardElements[x+3][y+0].alive = true;
-    board.boardElements[x+3][y+1].alive = true;
-    board.boardElements[x+3][y+2].alive = true;
-    board.boardElements[x+3][y+3].alive = true;
+void GameOfLifeMap::forEachElement(std::function<void (int row, int column)> myFcn, Board board)
+{
+  int rows = board.getRows();
+  int columns = board.getColumns();
 
-    board.boardElements[x+0][y+1].nextAlive = true;
-    board.boardElements[x+0][y+4].nextAlive = true;
-    board.boardElements[x+1][y+0].nextAlive = true;
-    board.boardElements[x+2][y+0].nextAlive = true;
-    board.boardElements[x+2][y+4].nextAlive = true;
-    board.boardElements[x+3][y+0].nextAlive = true;
-    board.boardElements[x+3][y+1].nextAlive = true;
-    board.boardElements[x+3][y+2].nextAlive = true;
-    board.boardElements[x+3][y+3].nextAlive = true;
+  for(int row=0;row<rows;row++)
+  {
+      for(int column=0;column<columns;column++)
+      {
+          // perform function with row and column parameters
+          myFcn(row,column);
+      }
+  }
 }
