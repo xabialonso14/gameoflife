@@ -17,6 +17,7 @@ class BoardElement
         char getSign();
 
 		// komentarz: czemu board element wie cokolwiek o swoich sasiadach?
+        // pytanie: jak to rozwiazac?
         int numberOfNeighbours = 0;
 
 };

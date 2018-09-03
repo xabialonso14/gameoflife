@@ -3,6 +3,7 @@
 // komentarz: domyślny konstruktor jest generowany przez kompilator,
 // jeśli nic w nim nie robisz, nie trzeba go dodawać; sugestia: może
 // dodać
+// pytanie: czy powinienem? co z innymi konstruktorami?
 Board::Board()
 {
 

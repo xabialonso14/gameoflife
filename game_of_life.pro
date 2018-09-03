@@ -17,9 +17,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp \
     board.cpp \
     boardelement.cpp \
-    gameoflifemap.cpp
+    gameoflifemap.cpp \
+    positioninspector.cpp
 
 HEADERS += \
     board.h \
     boardelement.h \
-    gameoflifemap.h
+    gameoflifemap.h \
+    positioninspector.h

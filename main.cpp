@@ -24,6 +24,7 @@ int main(int argc, char *argv[])
     // add dakotas
     MyMap.addDakota({15,5});
     MyMap.addDakota({20,35});
+    MyMap.addGlider({25,45});
 
     while(1)
     {
