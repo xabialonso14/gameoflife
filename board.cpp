@@ -43,7 +43,18 @@ int Board::getRows()
     return rows;
 }
 
+void Board::forEachElement(std::function<void (Point point)> elementAction)
+{
+  int rows = this->getRows();
+  int columns = this->getColumns();
 
-
-
+  for(int row=0;row<rows;row++)
+  {
+      for(int column=0;column<columns;column++)
+      {
+          // perform function with row, column and board parameters
+          elementAction({row,column});
+      }
+  }
+}
 

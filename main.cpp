@@ -5,7 +5,7 @@
 #include <thread>
 
 #include "boardelement.h"
-#include "board.h"
+#include "point.h"
 #include "gameoflifemap.h"
 
 int main(int argc, char *argv[])

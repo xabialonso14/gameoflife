@@ -18,10 +18,14 @@ SOURCES += main.cpp \
     board.cpp \
     boardelement.cpp \
     gameoflifemap.cpp \
-    positioninspector.cpp
+    positioninspector.cpp \
+    point.cpp
 
 HEADERS += \
     board.h \
     boardelement.h \
     gameoflifemap.h \
-    positioninspector.h
+    positioninspector.h \
+    point.h \
+    point.h \
+    point.h

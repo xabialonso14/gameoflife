@@ -5,12 +5,7 @@
 #include <iostream>
 #include <functional>
 #include "boardelement.h"
-
-struct Point
-{
-  int row;
-  int column;
-};
+#include "point.h"
 
 class Board
 {
@@ -27,6 +22,8 @@ class Board
 
         int getRows();
         int getColumns();
+
+        void forEachElement(std::function<void(Point point)> elementAction);
 
         std::vector< std::vector<BoardElement> > boardElements;
 };
