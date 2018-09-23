@@ -1,9 +1,5 @@
 #include "board.h"
 
-// komentarz: domyślny konstruktor jest generowany przez kompilator,
-// jeśli nic w nim nie robisz, nie trzeba go dodawać; sugestia: może
-// dodać
-// pytanie: czy powinienem? co z innymi konstruktorami?
 Board::Board()
 {
 
@@ -33,17 +29,23 @@ void Board::setRows(int rows)
     this->rows = rows;
 }
 
-int Board::getColumns()
+const int Board::getColumns()
 {
     return columns;
 }
 
-int Board::getRows()
+const int Board::getRows()
 {
     return rows;
 }
 
-void Board::forEachElement(std::function<void (Point point)> elementAction)
+BoardElement* Board::elementAt(Point point)
+{
+    BoardElement* element = &(this->boardElements[point.row][point.column]);
+    return element;
+}
+
+void Board::forEachElement(std::function<void (BoardElement* nextElement, Point point)> elementAction)
 {
   int rows = this->getRows();
   int columns = this->getColumns();
@@ -53,8 +55,9 @@ void Board::forEachElement(std::function<void (Point point)> elementAction)
       for(int column=0;column<columns;column++)
       {
           // perform function with row, column and board parameters
-          elementAction({row,column});
+          Point point = {row,column};
+          BoardElement* element = &(this->boardElements[point.row][point.column]);
+          elementAction(element, point);
       }
   }
 }
-

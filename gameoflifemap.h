@@ -6,13 +6,13 @@
 
 class GameOfLifeMap
 {
-
-public:
-    GameOfLifeMap(int rows, int columns);
-
+private:
     Board board;
 
-    void displayMap();
+public:
+    GameOfLifeMap(int rows, int columns);  
+
+    const void displayMap();
     void updateMap();
 
     void addGlider(Point point);

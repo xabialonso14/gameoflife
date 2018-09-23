@@ -13,13 +13,8 @@ class BoardElement
         void setAlive(bool alive);
         void setSign(char sign);
 
-        bool getAlive();
-        char getSign();
-
-		// komentarz: czemu board element wie cokolwiek o swoich sasiadach?
-        // pytanie: jak to rozwiazac?
-        int numberOfNeighbours = 0;
-
+        const bool getAlive();
+        const char getSign();
 };
 
 #endif // BOARDELEMENT_H

@@ -20,10 +20,11 @@ class Board
         void setRows(int rows);
         void setColumns(int columns);
 
-        int getRows();
-        int getColumns();
+        const int getRows();
+        const int getColumns();
 
-        void forEachElement(std::function<void(Point point)> elementAction);
+        BoardElement* elementAt(Point point);
+        void forEachElement(std::function<void(BoardElement* nextElement, Point point)> elementAction);
 
         std::vector< std::vector<BoardElement> > boardElements;
 };
