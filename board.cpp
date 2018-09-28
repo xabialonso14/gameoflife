@@ -45,7 +45,7 @@ BoardElement* Board::elementAt(Point point)
     return element;
 }
 
-void Board::forEachElement(std::function<void (BoardElement* nextElement, Point point)> elementAction)
+void Board::forEachElement(std::function<void (BoardElement* element, Point point)> elementAction)
 {
   int rows = this->getRows();
   int columns = this->getColumns();

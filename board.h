@@ -24,7 +24,7 @@ class Board
         const int getColumns();
 
         BoardElement* elementAt(Point point);
-        void forEachElement(std::function<void(BoardElement* nextElement, Point point)> elementAction);
+        void forEachElement(std::function<void(BoardElement* element, Point point)> elementAction);
 
         std::vector< std::vector<BoardElement> > boardElements;
 };
