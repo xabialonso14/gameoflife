@@ -1,11 +1,11 @@
 #include "gameoflifemap.h"
 
-GameOfLifeMap::GameOfLifeMap(int rows, int columns)
+GameOfLifeMap::GameOfLifeMap(uint8_t rows, uint8_t columns)
 {
     board.setDimensions(rows,columns);
 }
 
-const void GameOfLifeMap::displayMap()
+void GameOfLifeMap::displayMap()
 {
     board.forEachElement([&](BoardElement* element, Point point)
     {

@@ -15,13 +15,13 @@ class Board
     public:
         Board();
 
-        void setDimensions(int rows, int columns);
+        void setDimensions(uint8_t rows, uint8_t columns);
 
         void setRows(int rows);
         void setColumns(int columns);
 
-        const int getRows();
-        const int getColumns();
+        int getRows() const;
+        int getColumns() const;
 
         BoardElement* elementAt(Point point);
         void forEachElement(std::function<void(BoardElement* element, Point point)> elementAction);

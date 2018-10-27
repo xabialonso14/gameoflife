@@ -5,7 +5,7 @@ Board::Board()
 
 }
 
-void Board::setDimensions(int rows, int columns)
+void Board::setDimensions(uint8_t rows, uint8_t columns)
 {
     // assign board dimensions properties
     this->rows = rows;
@@ -13,7 +13,7 @@ void Board::setDimensions(int rows, int columns)
 
     // resize board
     boardElements.resize(rows);
-    for(int i = 0; i < rows; ++i)
+    for(uint8_t i = 0; i < rows; i++)
     {
       boardElements[i].resize(columns);
     }
@@ -29,12 +29,12 @@ void Board::setRows(int rows)
     this->rows = rows;
 }
 
-const int Board::getColumns()
+int Board::getColumns() const
 {
     return columns;
 }
 
-const int Board::getRows()
+int Board::getRows() const
 {
     return rows;
 }
@@ -50,14 +50,13 @@ void Board::forEachElement(std::function<void (BoardElement* element, Point poin
   int rows = this->getRows();
   int columns = this->getColumns();
 
-  for(int row=0;row<rows;row++)
+  for(uint8_t row=0;row<rows;row++)
   {
-      for(int column=0;column<columns;column++)
+      for(uint8_t column=0;column<columns;column++)
       {
           // perform function with row, column and board parameters
           Point point = {row,column};
-          BoardElement* element = &(this->boardElements[point.row][point.column]);
-          elementAction(element, point);
+          elementAction(elementAt(point), point);
       }
   }
 }

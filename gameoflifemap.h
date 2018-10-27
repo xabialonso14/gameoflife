@@ -10,9 +10,9 @@ private:
     Board board;
 
 public:
-    GameOfLifeMap(int rows, int columns);  
+    GameOfLifeMap(uint8_t rows, uint8_t columns);
 
-    const void displayMap();
+    void displayMap();
     void updateMap();
 
     void addGlider(Point point);

@@ -13,8 +13,8 @@ class BoardElement
         void setAlive(bool alive);
         void setSign(char sign);
 
-        const bool getAlive();
-        const char getSign();
+        bool getAlive() const;
+        char getSign() const;
 };
 
 #endif // BOARDELEMENT_H

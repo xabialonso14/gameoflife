@@ -15,12 +15,12 @@ void BoardElement::setSign(char sign)
     this->sign = sign;
 }
 
-const bool BoardElement::getAlive()
+bool BoardElement::getAlive() const
 {
     return alive;
 }
 
-const char BoardElement::getSign()
+char BoardElement::getSign() const
 {
     return sign;
 }

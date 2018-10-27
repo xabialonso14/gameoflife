@@ -14,19 +14,19 @@ int PositionInspector::countNeighbours(Board board, Point point)
     int n = 0;
 
     // iterate over rows
-    for(int row = point.row-1; row < point.row+2; row++)
+    for(uint8_t row = point.row > 0 ? point.row - 1 : 0; row < point.row + 2; row++)
     {
         // check if rows are in the board
-        if (row > -1 && row < rows)
+        if (row < rows)
         {
             // iterate over columns
-            for(int column=point.column-1; column<point.column+2; column++)
+            for(uint8_t column = point.column > 0 ? point.column - 1 : 0; column < point.column + 2; column++)
             {
                 // check if columns are in the board
-                if (column > -1 && column < columns)
+                if (column < columns)
                 {
                     // if board element is alive, increment n
-                    if (true == board.boardElements[row][column].getAlive())
+                    if ( true == board.elementAt({row,column})->getAlive() )
                     {
                         n++;
                     }
@@ -36,7 +36,7 @@ int PositionInspector::countNeighbours(Board board, Point point)
     }
 
     // if current cell is alive, decrement n
-    if (board.boardElements[point.row][point.column].getAlive())
+    if ( board.elementAt(point)->getAlive() )
         n--;
 
     return n;
