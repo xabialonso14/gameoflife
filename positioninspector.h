@@ -2,8 +2,9 @@
 #define POSITIONINSPECTOR_H
 
 #include "board.h"
+#include "mysharedlib_global.h"
 
-class PositionInspector
+class MYSHAREDLIB_EXPORT PositionInspector
 {
 public:
     PositionInspector();

@@ -1,11 +1,7 @@
 #include <QCoreApplication>
 #include <iostream>
-
-#include <chrono>
 #include <thread>
 
-#include "boardelement.h"
-#include "point.h"
 #include "gameoflifemap.h"
 
 int main(int argc, char *argv[])

@@ -3,8 +3,9 @@
 
 #include "board.h"
 #include "positioninspector.h"
+#include "mysharedlib_global.h"
 
-class GameOfLifeMap
+class MYSHAREDLIB_EXPORT GameOfLifeMap
 {
 private:
     Board board;

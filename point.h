@@ -2,8 +2,9 @@
 #define POINT_H
 
 #include <iostream>
+#include "mysharedlib_global.h"
 
-struct Point
+struct MYSHAREDLIB_EXPORT Point
 {
   uint8_t row;
   uint8_t column;

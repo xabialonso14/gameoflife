@@ -6,8 +6,9 @@
 #include <functional>
 #include "boardelement.h"
 #include "point.h"
+#include "mysharedlib_global.h"
 
-class Board
+class MYSHAREDLIB_EXPORT Board
 {
     private:
         int rows, columns;

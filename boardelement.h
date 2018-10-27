@@ -1,7 +1,9 @@
 #ifndef BOARDELEMENT_H
 #define BOARDELEMENT_H
 
-class BoardElement
+#include "mysharedlib_global.h"
+
+class MYSHAREDLIB_EXPORT BoardElement
 {
     private:
         bool alive = false;
